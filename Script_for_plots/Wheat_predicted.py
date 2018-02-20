@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import mpld3
 
-df=pd.read_csv('/home/cyberworm/Desktop/final.csv')
 
+
+df=pd.read_csv('final.csv')
 df = df.rename(columns={'Unnamed: 0':'Year'})
 
-years=np.arange(2011,2018).reshape(-1,1)
 
-
-X=np.array(df[['year','Wheat_area']]).reshape(-1,2)
+X=np.array(df[['Year','Wheat_area']]).reshape(-1,2)
 
 Y=np.array(df['Wheat']).reshape(-1,1)
 clf=LinearRegression()
@@ -21,18 +20,19 @@ w_pre=clf.predict(np.array([[2011,2975899],[2012,2980987],[2013,3367891],
                             [2017,3577992]]).reshape(-1,2))
 
 #creating a plot
+years=np.arange(2011,2018).reshape(-1,1)
 w_pre.reshape(1,-1)
 wheat_obj,wheat_plt = plt.subplots()
-wheat_plt.plot(df['year'],df['Wheat'],label="Old Stats")
+wheat_plt.plot(df['Year'],df['Wheat'],label="Old Stats")
 wheat_plt.plot(years,w_pre,label="Predicted Stats")
 wheat_plt.set_xlabel('Years')
 wheat_plt.set_ylabel('Wheat')
 wheat_plt.set_title('Wheat Yield')
 plt.ticklabel_format(useOffset=False, style='plain',axis='both')
 wheat_plt.legend()
-
+# plt.show()
 #writing it to the file
 x = mpld3.fig_to_html(wheat_obj)
-file1 = open('/home/cyberworm/Desktop/Script_for_plots/Wheat.txt','w+')
+file1 = open('Wheat.txt','w+')
 file1.write(x)
 file1.close()
